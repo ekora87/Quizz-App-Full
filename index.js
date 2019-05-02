@@ -74,10 +74,10 @@ function moveToTheNextPage() {
 function generateNewQuestion(item) {
     return `<div class="question-box">
     <legend class="question"><h3>${item.question}</h3></legend><br>
-    <input type="radio" name="question1" class="button">
+    <input type="radio" name="question1" class="button" required>
     <label for="question1">${item.ans1}</label>
     <br>
-    <input type="radio" name="question1" class="button">
+    <input type="radio" name="question1" class="button" required>
     <label for="question1">${item.ans2}</label>
     <br>
     <input type="radio" name="question1" class="button">
@@ -85,7 +85,10 @@ function generateNewQuestion(item) {
     <br>
     <input type="radio" name="question1" class="button">
     <label for="question1">${item.ans4}</label>
-    </div>`;
+    <br>
+    </div>
+    <input type="submit" class="next-button">
+    `;
 }
 
 function generateQuestionString(str) {
@@ -105,14 +108,33 @@ function renderQuestion() {
     $('.question-form').html(questionAnswer);
   }
 
+function startTheQuiz() {
+  $('.start-button').click(function(){
+    counter++;
+    renderQuestion();
+    $('.start-button').remove();
+    $('h2').remove();
+  });
+} 
+
 //This function use to remove the question
 function moveToNextQuestion () {
-    $('.gauntlet').click( function() {
-        if (counter > 10) {
-        counter++;
-        renderQuestion();
+    $('.question-form').submit( function(event) {
+        event.preventDefault();
+        
+        if (counter < 10) {
+          counter++;
+          renderQuestion();
         }
     });
+}
+
+function resetQuestion () {
+  $('.reset-button').submit( function(event) {
+      event.preventDefault();
+      alert("reset");
+      window.location.reload();
+  });
 }
 //this function use to check if the answer is correct or not
 function checkAnswer() {
@@ -124,8 +146,11 @@ function renderTheDom() {
 }
 
 function handleShoppingList() {
+  resetQuestion();
+    startTheQuiz();
     renderQuestion();
     moveToNextQuestion();
+    
     
   }
 
