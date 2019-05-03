@@ -2,6 +2,8 @@
 <html>
     <head>
         <title>Quiz App</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
         <link rel="stylesheet" href="main.css">
     </head>
     <body>
@@ -10,12 +12,15 @@
         </header>
         <main>
             <h2>Defeat Thanos By Smashing This "Avengers: Infinity War" Quiz</h2>
-            <img class="gauntlet" src="https://media3.giphy.com/media/26VjwfLk7CRslWHSWI/source.gif"/>
-            
-
+            <section class="score-box">
+                <h3>Question: <span class="question-count"></span></h3>
+                <img class="gauntlet" src="https://media3.giphy.com/media/26VjwfLk7CRslWHSWI/source.gif"/>
+                <h3>Score: <span class="score-count"></span></h3>
+            </section>
             <form class="question-form" action="/index.html">
             </form>
-            <input type="submit" class="start-button" value="Start">
+            
+            <!-- <input type="submit" class="start-button" value="Start"> -->
         </main>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     

@@ -42,7 +42,7 @@ const QUIZ = [
 
     {image: 'https://i.redd.it/low3gbdsjsr11.jpg',
     question: 'Spider-Man and Starlord bond over which movie?',
-    ans1: "Foorloose",
+    ans1: "Footloose",
     ans2: "Flashdance",
     ans3: "The Breakfast Club",
     ans4: "Friday"
@@ -64,12 +64,20 @@ const QUIZ = [
     ans4: "Green"
     },
 
-    {image: 'https://junkee.com/wp-content/uploads/2018/04/aveng.png',
+    {image: 'https://static1.cbrimages.com/wordpress/wp-content/uploads/2018/10/Eitri-Peter-Dinklage-Infinity-War.jpg',
     question: 'What is the name of the smith that Thor visits to rebuild his hammer?',
     ans1: "Eitri",
     ans2: "Ayo",
     ans3: "Okoye",
     ans4: "Corvus"
+    },
+
+    {image: 'https://moviepaws.files.wordpress.com/2018/04/rocket-racoon.jpg',
+    question: 'What is the Rocket new nickname in the movie?',
+    ans1: "Fox",
+    ans2: "Trash panda",
+    ans3: "Rabbit",
+    ans4: "Triangle-faced monkey"
     }
 ];
 
@@ -82,12 +90,17 @@ const ANSWER = [
   {ans: "Footloose"},
   {ans: "2"},
   {ans: "Red"},
-  {ans: "Eitri"}
+  {ans: "Eitri"},
+  {ans: "Rabbit"}
 ];
 
 //This counter is use to count the index of QUIZ
 let counter = -1;
+let questionCounter = 1;
 let correctAns = 0;
+let score = 0;
+let right = false;
+let num=0;
 function moveToTheNextPage() {
 
 }
@@ -97,18 +110,19 @@ function generateNewQuestion(item) {
     return `<div class="question-box">
     <img src=${item.image}>
     <legend class="question"><h3>${item.question}</h3></legend><br>
-    <input type="radio" name="question1" class="button" value="${item.ans1}" required>
-    <label for="test">${item.ans1}</label>
+    <div class="button-container">
+    <input type="button" name="question1" class="btn btn-primary" value="${item.ans1}" onclick="compareAnswer(this);" required>
     <br>
-    <input type="radio" name="question1" value="${item.ans2}" class="button">
-    <label for="test">${item.ans2}</label>
+    <input type="button" name="question1" value="${item.ans2}" onclick="compareAnswer(this);" class="btn btn-primary btn.lg" >
+    
     <br>
-    <input type="radio" name="question1" value="${item.ans3}" class="button">
-    <label for="test">${item.ans3}</label>
+    <input type="button" name="question1" value="${item.ans3}" class="btn btn-primary" onclick="compareAnswer(this);">
+    
     <br>
-    <input type="radio" name="question1" value="${item.ans4}" class="button">
-    <label for="test">${item.ans4}</label>
+    <input type="button" name="question1" value="${item.ans4}" class="btn btn-primary" onclick="compareAnswer(this);">
+    
     <br>
+    </div>
     </div>
     <input type="submit" class="next-button">
     `;
@@ -132,24 +146,60 @@ function renderQuestion() {
   }
 
 function startTheQuiz() {
-  $('.start-button').click(function(){
+  $('.gauntlet').click(function(){
     counter++;
     renderQuestion();
-    $('.start-button').remove();
+    //$('.start-button').remove();
     $('h2').remove();
+    updateScore(questionCounter++);
   });
 } 
 
+
+
 //This function use to remove the question
 function moveToNextQuestion () {
+  
     $('.question-form').submit( function(event) {
-        event.preventDefault();
-        //retrieveAnswer();
+        updateScore(questionCounter++);
+        event.preventDefault();        
         if (counter < 10) {
-          counter++;
+          counter++;          
           renderQuestion();
         }
+        
+      
     });
+}
+
+function compareAnswer(clicked) {
+  const userAnswer = clicked.value;
+  if (!userAnswer) {
+    alert("STOP");
+  }
+  if (userAnswer === ANSWER[counter].ans) {
+    return true;
+  }
+
+}
+
+function keepingScore() {
+  $('.question-form').on('click', 'input:button', event => {
+    if (compareAnswer(event.target)) {
+      score++;
+      console.log(score);
+      return score;
+    } 
+  });
+  
+}
+
+//This function is use to update the score board
+function updateScore(num) {
+  if (num <=10) {
+    $('.question-count').html(`${num}/10`);
+    $('.score-count').html(score);
+  }
 }
 
 // function resetQuestion () {
@@ -160,42 +210,30 @@ function moveToNextQuestion () {
 //   });
 // }
 
-function retrieveAnswer() {
-  $('.question-form').submit('input', event => {
-   var radioValue = $('input[type=radio][name=question1]:checked').val();
-   console.log(radioValue);
-   console.log("Answer " +ANSWER[counter].ans);
-   if (radioValue === ANSWER[counter].ans) {
-    correctAns++;
-
-   }
-   console.log(correctAns);
-   //alert(radioValue);
-           
-  });
-}
 
 
-//this function use to check if the answer is correct or not
-// function checkAnswer(answer) {
-//  console.log(answer.ans);
+
   
 // }
 
+// function compareAnswer(guess) {
+//   if (guess === ANSWER[counter].ans) {
+//     correctAns++;
+//   }
+//   alert("score: " + correctAns);
+// }
 
-
-  //console.log("here")
 
 
 function handleShoppingList() {
   
     startTheQuiz();
+    keepingScore();
+    //updateScore();
     renderQuestion();
-    retrieveAnswer();
-    //checkAnswer(ANSWER);
+    
+    //compareAnswer(retrieveAnswer());
     moveToNextQuestion();
-    
-    
   }
 
 $(handleShoppingList);
