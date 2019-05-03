@@ -18,6 +18,7 @@
     
 } */
 
+
 body {
     width: 80%;
     margin: 0 auto;
@@ -32,6 +33,15 @@ body {
     border-radius: 5px;
     padding: 0 15px 20px 15px;
     margin-bottom: 20px;
+    text-align: center;
+    
+}
+
+.question-box > img {
+    width: 50%;
+    height: 300px;
+    border-radius: 5px;
+    margin-top: 5px;
 }
 
 .question {
