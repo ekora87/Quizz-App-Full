@@ -111,16 +111,21 @@ function generateNewQuestion(item) {
     <img src=${item.image}>
     <legend class="question"><h3>${item.question}</h3></legend><br>
     <div class="button-container">
-    <input type="button" name="question1" class="btn btn-primary" value="${item.ans1}" onclick="compareAnswer(this);" required>
+    <input type="radio" name="question1" class="button" value="${item.ans1}" onclick="compareAnswer(this);" required>
+    <label for="test">${item.ans1}</label>
+
     <br>
-    <input type="button" name="question1" value="${item.ans2}" onclick="compareAnswer(this);" class="btn btn-primary btn.lg" >
-    
+    <input type="radio" name="question1" value="${item.ans2}" onclick="compareAnswer(this);" class="button" >
+    <label for="test">${item.ans2}</label>
+
     <br>
-    <input type="button" name="question1" value="${item.ans3}" class="btn btn-primary" onclick="compareAnswer(this);">
-    
+    <input type="radio" name="question1" value="${item.ans3}" class="button" onclick="compareAnswer(this);">
+    <label for="test">${item.ans3}</label>
+
     <br>
-    <input type="button" name="question1" value="${item.ans4}" class="btn btn-primary" onclick="compareAnswer(this);">
-    
+    <input type="radio" name="question1" value="${item.ans4}" class="button" onclick="compareAnswer(this);">
+    <label for="test">${item.ans4}</label>
+
     <br>
     </div>
     </div>
@@ -164,19 +169,30 @@ function moveToNextQuestion () {
         updateScore(questionCounter++);
         event.preventDefault();        
         if (counter < 10) {
-          counter++;          
+          counter++;    
+            
           renderQuestion();
+        } else {
+          alert("Click");
         }
         
       
     });
 }
 
+// function checkButtonClicked() {
+//   if ($('input=["button"]').click()) {
+    
+//         alert(' clicked');
+//     } else {
+//       alert ("No Clucked");
+//     }
+
+// }
+
 function compareAnswer(clicked) {
   const userAnswer = clicked.value;
-  if (!userAnswer) {
-    alert("STOP");
-  }
+  
   if (userAnswer === ANSWER[counter].ans) {
     return true;
   }
@@ -229,6 +245,7 @@ function handleShoppingList() {
   
     startTheQuiz();
     keepingScore();
+   // checkButtonClicked();
     //updateScore();
     renderQuestion();
     
