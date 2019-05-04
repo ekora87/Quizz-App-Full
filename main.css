@@ -58,7 +58,7 @@ h1 {
 
 .question-box > img {
     width: 60%;
-    height: 450px;
+    height: 400px;
     border-radius: 5px;
     margin-top: 5px;
 }
@@ -76,6 +76,7 @@ h1 {
     color: white;
     border-radius: 5px;
     padding-top: 10px;
+    height: auto;
     /* display: flex;
     flex-direction: row;
     align-items:center;
@@ -93,9 +94,10 @@ h1 {
 } 
 
   span > label {
-    position: relative;
+      line-height: auto;
+     position: relative;
     bottom: 2px;
-}  
+}   
 
 :focus{
     outline:none;
@@ -116,5 +118,24 @@ h1 {
     border:5px solid #4099ff;
   }
 
-  
-  
+    .result-pic {
+      width: 100%;
+      margin: 50px 0;
+  }  
+
+
+  .right-answer-box {
+      display: block;
+      width: 400px;
+      margin: 0 auto;
+  }
+
+  .answer {
+      font-weight: bold;
+  }
+
+  input[type='submit'] {
+      font-weight: bold;
+  }
+ 
+ 

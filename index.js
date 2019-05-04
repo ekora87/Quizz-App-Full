@@ -99,8 +99,8 @@ let counter = -1;
 let questionCounter = 1;
 let correctAns = 0;
 let score = 0;
-let right = false;
-let num=0;
+let result = false;
+
 function moveToTheNextPage() {
 
 }
@@ -130,35 +130,42 @@ function generateNewQuestion(item) {
     </div>
     
     </div>
-    <input class="btn btn-primary" type="submit" value="NEXT">
+    <input class="btn btn-primary" type="submit" value="SUBMIT">
     `;
 }
 
+
+
 function generateQuestionString(str) {
     
-  
-    const items = str.map((item) => generateNewQuestion(item));
-    
+  // for (let i=-1; i<str.length; i++){
+  //   return generateNewQuestion(str[i]);
+  // }
+    const items = str.map(item => generateNewQuestion(item));
+    //console.log(items);
     return items[counter];
+    
 }
 
 function renderQuestion() {
     // render the shopping list in the DOM
     
     const questionAnswer= generateQuestionString(QUIZ);
-  
+    $('.right-answer').hide('.right-answer-box'); 
+    $('.question-form').show('.question-box');
     // insert that HTML into the DOM
     $('.question-form').html(questionAnswer);
   }
 
 function startTheQuiz() {
   $('.gauntlet').click(function(){
+    //alert("start-running");
     counter++;
     renderQuestion();
     //$('.start-button').remove();
     $('h2').remove();
     $('.gauntlet').remove();
-    updateScore(questionCounter++);
+    updateScore();
   });
 } 
 
@@ -168,68 +175,100 @@ function startTheQuiz() {
 function moveToNextQuestion () {
   
     $('.question-form').submit( function(event) {
+      
+      console.log(counter);
+        event.preventDefault();
+        retrieveAnswer();
         
-        event.preventDefault();        
-        if (counter < 9) {
-          counter++;    
-          updateScore(questionCounter++);  
-          renderQuestion();
-          
-        } else {
-          alert(correctAns);
-          resetTheQuiz();
-        }
+        $('.question-form').hide('.question-box');
+        $('.right-answer').show('.right-answer-box');   
+        myFunction();  
+        
+        counter++; 
+        
         
       
     });
 }
 
-function retrieveAnswer() {
-  $('.question-form').submit('input', event => {
-   var radioValue = $('input[type=radio][name=question1]:checked').val();
-   if (radioValue === ANSWER[counter].ans && (correctAns < 10)) {
-    correctAns++;
-    return correctAns;
-    
-   }
-  
-   
-
-  });
+function rightAnswer() {
+  return `<div class="right-answer-box">
+  <h3>You Guess It Right.</h3>
+  <img class="result-pic" src="https://data.whicdn.com/images/285820765/original.gif">
+  <form  action="/index.html">
+  <input class="btn btn-primary" type="submit" name="next" value="NEXT QUESTION">
+  </form>
+  </div>
+  `;
 }
 
-// function compareAnswer(clicked) {
-//   $('.question-form')
-//   const userAnswer = clicked.value;
-  
-//   if (userAnswer === ANSWER[counter].ans) {
-//     return true;
-//   }
+function wrongAnswer() {
+  return `<div class="right-answer-box">
+  <h3>You Guess It Wrong. The Correct Answer is: <span class="answer">${ANSWER[counter].ans}</span></h3>
+  <img class="result-pic" src="https://discourse-cdn-sjc1.com/business4/uploads/electroneum/original/2X/2/26df955a47923f27afb50f04fcf2ea5e973c3ffb.gif">
+  <form  action="/index.html">
+  <input class="btn btn-primary" type="submit" name="next" value="NEXT QUESTION">
+  </form>
+  </div>
+  `;
+}
 
-// }
-
-// function keepingScore() {
-//   $('.question-form').on('click', 'input:button', event => {
-//     if (compareAnswer(event.target)) {
-//       score++;
-//       console.log(score);
-//       return score;
-//     } 
-//   });
+function myFunction() {
   
-// }
+  renderRightAnswer();
+  $('.right-answer').submit( function(event) {
+    event.preventDefault();
+    renderQuestion();
+    updateScore();
+    
+   
+  });
+ 
+}
+
+function renderRightAnswer() {
+  let right = "";
+  if (result) {
+    right = rightAnswer();
+  } else {
+    right = wrongAnswer();
+  }
+  if (counter === 9) {
+    $('.btn:input[type="submit"][name="next"]').val("RESET THE QUIZ");
+    updateScore();
+    resetTheQuiz();
+  } else {
+    $('.right-answer').html(right);
+  }
+}
+
+function retrieveAnswer() {
+  //$('.question-form').submit('input', event => {
+   var radioValue = $('input[type=radio][name=question1]:checked').val();
+   questionCounter++;
+   if (radioValue === ANSWER[counter].ans) {
+    correctAns++;
+    console.log("correct answer " + correctAns);
+    result = true;
+   } else {
+     result = false;
+   }
+   
+  //});
+}
 
 //This function is use to update the score board
-function updateScore(num) {
-  if (num <=10) {
-    $('.question-count').html(`${num}/10`);
-    $('.score-count').html(correctAns);
+function updateScore() {
+  
+  $('.score-count').html(correctAns);
+  if (questionCounter <=10) {
+    $('.question-count').html(`${questionCounter}/10`);  
   }
 }
 
 function resetTheQuiz() {
-  $('.btn:input[type="submit"]').val("RESET THE QUIZ");
-  $('.question-form').submit(function(event){
+  
+  $('.right-answer').submit(function(event){
     event.preventDefault();
     location.reload();
   });
@@ -264,14 +303,20 @@ function resetTheQuiz() {
 function handleShoppingList() {
   
     startTheQuiz();
-    retrieveAnswer();
+    moveToNextQuestion();
+    
+    
+    //updateScore(questionCounter++);
+    //myFunction();  
+    //retrieveAnswer();
+    //myFunction();
    // keepingScore();
    // checkButtonClicked();
     //updateScore();
-    renderQuestion();
-    
+    //renderQuestion();
+    //myFunction();
     //compareAnswer(retrieveAnswer());
-    moveToNextQuestion();
+    //moveToNextQuestion();
     //resetTheQuiz();
   }
 
