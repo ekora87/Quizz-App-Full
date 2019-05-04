@@ -165,6 +165,7 @@ function startTheQuiz() {
     //$('.start-button').remove();
     $('h2').remove();
     $('.gauntlet').remove();
+    
     updateScore();
   });
 } 
@@ -260,9 +261,9 @@ function retrieveAnswer() {
 //This function is use to update the score board
 function updateScore() {
   
-  $('.score-count').html(correctAns);
+  $('.score-count').html(`Score: ${correctAns}/10`);
   if (questionCounter <=10) {
-    $('.question-count').html(`${questionCounter}/10`);  
+    $('.question-count').html(`Question: ${questionCounter}/10`);  
   }
 }
 

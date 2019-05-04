@@ -137,5 +137,48 @@ h1 {
   input[type='submit'] {
       font-weight: bold;
   }
+
+  @media only screen and (max-width: 600px) {
+      body {
+      }
+
+      h1 {
+          margin: 10px 0;
+      }
+
+      .question-box {
+          padding-bottom: 0px;
+      }
+      .question-box > img {
+        width: 100%;
+        height: 200px;
+        border-radius: 5px;
+        margin-top: 5px;
+       }
+
+       .each-question {
+           padding: 0;
+       }
+
+       .each-question > label {
+           font-size: 1em;
+           
+       }
+
+       h3 {
+           font-size: 20px;
+       }
+
+
+      
+      .button-container {
+          
+          display: block;
+      }
+
+      .each-question {
+          flex: 1;
+      }
+  } 
  
  
