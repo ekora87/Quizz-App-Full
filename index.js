@@ -101,10 +101,6 @@ let correctAns = 0;
 let score = 0;
 let result = false;
 
-function moveToTheNextPage() {
-
-}
-
 //this function is use to render the DOM with the next question
 function generateNewQuestion(item) {
     return `<div class="question-box">
@@ -134,6 +130,9 @@ function generateNewQuestion(item) {
     `;
 }
 
+function addImage() {
+  $('header').html(`<img class="header-logo" src="http://pluspng.com/img-png/avengers-logo-png-avengers-age-of-ultron-logo-png-by-sachso74-837.png">`);
+}
 
 
 function generateQuestionString(str) {
@@ -162,8 +161,10 @@ function startTheQuiz() {
     //alert("start-running");
     counter++;
     renderQuestion();
-    //$('.start-button').remove();
+    
     $('h2').remove();
+    $('h1').remove();
+    addImage();
     $('.gauntlet').remove();
     
     updateScore();
