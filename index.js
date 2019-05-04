@@ -111,25 +111,26 @@ function generateNewQuestion(item) {
     <img src=${item.image}>
     <legend class="question"><h3>${item.question}</h3></legend><br>
     <div class="button-container">
-    <input type="radio" name="question1" class="button" value="${item.ans1}" onclick="compareAnswer(this);" required>
-    <label for="test">${item.ans1}</label>
-
+    <span class=each-question><input type="radio" name="question1" value="${item.ans1}" class="button" required>
+    <label for="test">${item.ans1}</label></span>
     <br>
-    <input type="radio" name="question1" value="${item.ans2}" onclick="compareAnswer(this);" class="button" >
-    <label for="test">${item.ans2}</label>
-
+    <span class=each-question><input type="radio" name="question1" value="${item.ans2}" class="button" >
+    <label for="test">${item.ans2}</label></span>
     <br>
-    <input type="radio" name="question1" value="${item.ans3}" class="button" onclick="compareAnswer(this);">
-    <label for="test">${item.ans3}</label>
-
+    <span class=each-question><input type="radio" name="question1" value="${item.ans3}" class="button" >
+    <label for="test">${item.ans3}</label></span>
     <br>
-    <input type="radio" name="question1" value="${item.ans4}" class="button" onclick="compareAnswer(this);">
-    <label for="test">${item.ans4}</label>
-
+    
+    <span class=each-question><input type="radio" name="question1" value="${item.ans4}" class="button" >
+    <label for="test">${item.ans4}</label></span>
     <br>
+    
+
+    
     </div>
+    
     </div>
-    <input type="submit" class="next-button">
+    <input class="btn btn-primary" type="submit" value="NEXT">
     `;
 }
 
@@ -156,6 +157,7 @@ function startTheQuiz() {
     renderQuestion();
     //$('.start-button').remove();
     $('h2').remove();
+    $('.gauntlet').remove();
     updateScore(questionCounter++);
   });
 } 
@@ -166,56 +168,74 @@ function startTheQuiz() {
 function moveToNextQuestion () {
   
     $('.question-form').submit( function(event) {
-        updateScore(questionCounter++);
+        
         event.preventDefault();        
-        if (counter < 10) {
+        if (counter < 9) {
           counter++;    
-            
+          updateScore(questionCounter++);  
           renderQuestion();
+          
         } else {
-          alert("Click");
+          alert(correctAns);
+          resetTheQuiz();
         }
         
       
     });
 }
 
-// function checkButtonClicked() {
-//   if ($('input=["button"]').click()) {
+function retrieveAnswer() {
+  $('.question-form').submit('input', event => {
+   var radioValue = $('input[type=radio][name=question1]:checked').val();
+   if (radioValue === ANSWER[counter].ans && (correctAns < 10)) {
+    correctAns++;
+    return correctAns;
     
-//         alert(' clicked');
-//     } else {
-//       alert ("No Clucked");
-//     }
+   }
+  
+   
+
+  });
+}
+
+// function compareAnswer(clicked) {
+//   $('.question-form')
+//   const userAnswer = clicked.value;
+  
+//   if (userAnswer === ANSWER[counter].ans) {
+//     return true;
+//   }
 
 // }
 
-function compareAnswer(clicked) {
-  const userAnswer = clicked.value;
+// function keepingScore() {
+//   $('.question-form').on('click', 'input:button', event => {
+//     if (compareAnswer(event.target)) {
+//       score++;
+//       console.log(score);
+//       return score;
+//     } 
+//   });
   
-  if (userAnswer === ANSWER[counter].ans) {
-    return true;
-  }
-
-}
-
-function keepingScore() {
-  $('.question-form').on('click', 'input:button', event => {
-    if (compareAnswer(event.target)) {
-      score++;
-      console.log(score);
-      return score;
-    } 
-  });
-  
-}
+// }
 
 //This function is use to update the score board
 function updateScore(num) {
   if (num <=10) {
     $('.question-count').html(`${num}/10`);
-    $('.score-count').html(score);
+    $('.score-count').html(correctAns);
   }
+}
+
+function resetTheQuiz() {
+  $('.btn:input[type="submit"]').val("RESET THE QUIZ");
+  $('.question-form').submit(function(event){
+    event.preventDefault();
+    location.reload();
+  });
+  //windows.location.reload();
+    
+  
 }
 
 // function resetQuestion () {
@@ -244,13 +264,17 @@ function updateScore(num) {
 function handleShoppingList() {
   
     startTheQuiz();
-    keepingScore();
+    retrieveAnswer();
+   // keepingScore();
    // checkButtonClicked();
     //updateScore();
     renderQuestion();
     
     //compareAnswer(retrieveAnswer());
     moveToNextQuestion();
+    //resetTheQuiz();
   }
 
-$(handleShoppingList);
+
+
+  $(handleShoppingList);
