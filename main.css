@@ -142,8 +142,8 @@ h1 {
       body {
     background-size: cover;
     position: relative;
-    height: 1200px;
-    overflow: visible;
+    min-height:1000px;
+    overflow: hidden;
     width: 100%;    
     
 
