@@ -1,4 +1,3 @@
-//this function is use to clear out the current page and rerender the DOM for the new page
 const QUIZ = [
     {image: 'https://static.magiquiz.com/wp-content/uploads/2018/05/stark-marvel.jpg',
      question: 'Infinity War centers around the Infinity Stones. How many are on Earth at the beginning of the movie?',
@@ -98,13 +97,12 @@ const ANSWER = [
 let counter = -1;
 let questionCounter = 1;
 let correctAns = 0;
-let score = 0;
 let result = false;
 
 //this function is use to render the DOM with the next question
 function generateNewQuestion(item) {
     return `<div class="question-box">
-    <img src=${item.image}>
+    <img src=${item.image} alt="Each Question Picture">
     <legend class="question"><h3>${item.question}</h3></legend><br>
     <div class="button-container">
     <span class=each-question><input type="radio" name="question1" value="${item.ans1}" class="button" required>
@@ -120,83 +118,71 @@ function generateNewQuestion(item) {
     <span class=each-question><input type="radio" name="question1" value="${item.ans4}" class="button" >
     <label for="test">${item.ans4}</label></span>
     <br>
-    
-
-    
     </div>
-    
     </div>
     <input class="btn btn-primary" type="submit" value="SUBMIT">
     `;
 }
 
 function addImage() {
-  $('header').html(`<img class="header-logo" src="http://pluspng.com/img-png/avengers-logo-png-avengers-age-of-ultron-logo-png-by-sachso74-837.png">`);
+  $('header').html(`<img class="header-logo" src="http://pluspng.com/img-png/avengers-logo-png-avengers-age-of-ultron-logo-png-by-sachso74-837.png" alt="Avenger Header Logo">`);
 }
 
 
 function generateQuestionString(str) {
-    
-  // for (let i=-1; i<str.length; i++){
-  //   return generateNewQuestion(str[i]);
-  // }
-    const items = str.map(item => generateNewQuestion(item));
-    //console.log(items);
-    return items[counter];
-    
+  const items = str.map(item => generateNewQuestion(item));
+  return items[counter];
 }
 
 function renderQuestion() {
-    // render the shopping list in the DOM
-    
-    const questionAnswer= generateQuestionString(QUIZ);
-    $('.right-answer').hide('.right-answer-box'); 
-    $('.question-form').show('.question-box');
-    // insert that HTML into the DOM
-    $('.question-form').html(questionAnswer);
-  }
+    // render the each question in the DOM
+  const questionAnswer= generateQuestionString(QUIZ);
+  $('.right-answer').hide('.right-answer-box'); 
+  $('.question-form').show('.question-box');
+  $('.question-form').html(questionAnswer);
+}
 
+//Function to start the quiz
 function startTheQuiz() {
   $('.gauntlet').click(function(){
-    //alert("start-running");
     counter++;
     renderQuestion();
-    
     $('h2').remove();
     $('h1').remove();
     addImage();
     $('.gauntlet').remove();
-    
     updateScore();
   });
 } 
 
-
-
-//This function use to remove the question
-function moveToNextQuestion () {
-  
+//This function use to move to the next question
+function moveToNextQuestion () {  
     $('.question-form').submit( function(event) {
-      
-      console.log(counter);
-        event.preventDefault();
-        retrieveAnswer();
-        
-        $('.question-form').hide('.question-box');
-        $('.right-answer').show('.right-answer-box');   
-        myFunction();  
-        
-        counter++; 
-        
-        
-      
+      event.preventDefault();
+      retrieveAnswer();
+      $('.question-form').hide('.question-box');
+      $('.right-answer').show('.right-answer-box');   
+      displayEachResult();  
+      counter++; 
     });
 }
 
+//This function is use to render the result to the DOM
+function displayEachResult() {
+  renderRightAnswer();
+  $('.right-answer').submit( function(event) {
+    event.preventDefault();
+    renderQuestion();
+    updateScore();
+  });
+}
+
+
+
 function rightAnswer() {
   return `<div class="right-answer-box">
-  <h3>You Guess It Right.</h3>
-  <img class="result-pic" src="https://data.whicdn.com/images/285820765/original.gif">
+  <p>You Guess It Right.</p>
+  <img class="result-pic" src="https://data.whicdn.com/images/285820765/original.gif" alt="You Guess It Right Picture">
   <form  action="/index.html">
   <input class="btn btn-primary" type="submit" name="next" value="NEXT QUESTION">
   </form>
@@ -206,8 +192,8 @@ function rightAnswer() {
 
 function wrongAnswer() {
   return `<div class="right-answer-box">
-  <h3>You Guess It Wrong. The Correct Answer is: <span class="answer">${ANSWER[counter].ans}</span></h3>
-  <img class="result-pic" src="https://discourse-cdn-sjc1.com/business4/uploads/electroneum/original/2X/2/26df955a47923f27afb50f04fcf2ea5e973c3ffb.gif">
+  <p>You Guess It Wrong. The Correct Answer is: <span class="answer">${ANSWER[counter].ans}</span></p>
+  <img class="result-pic" src="https://discourse-cdn-sjc1.com/business4/uploads/electroneum/original/2X/2/26df955a47923f27afb50f04fcf2ea5e973c3ffb.gif" alt="You Guess It Wrong Picture">
   <form  action="/index.html">
   <input class="btn btn-primary" type="submit" name="next" value="NEXT QUESTION">
   </form>
@@ -215,37 +201,26 @@ function wrongAnswer() {
   `;
 }
 
-function myFunction() {
-  
-  renderRightAnswer();
-  $('.right-answer').submit( function(event) {
-    event.preventDefault();
-    renderQuestion();
-    updateScore();
-    
-   
-  });
- 
-}
 
+//Render the right or wrong result depends on the user choice 
 function renderRightAnswer() {
-  let right = "";
+  let eachResult = "";
   if (result) {
-    right = rightAnswer();
+    eachResult = rightAnswer();
   } else {
-    right = wrongAnswer();
+    eachResult = wrongAnswer();
   }
   if (counter === 9) {
     $('.btn:input[type="submit"][name="next"]').val("RESET THE QUIZ");
     updateScore();
     resetTheQuiz();
   } else {
-    $('.right-answer').html(right);
+    $('.right-answer').html(eachResult);
   }
 }
 
+//Retrieve the user answer and compare it to the correct answer
 function retrieveAnswer() {
-  //$('.question-form').submit('input', event => {
    var radioValue = $('input[type=radio][name=question1]:checked').val();
    questionCounter++;
    if (radioValue === ANSWER[counter].ans) {
@@ -255,73 +230,27 @@ function retrieveAnswer() {
    } else {
      result = false;
    }
-   
-  //});
 }
 
 //This function is use to update the score board
 function updateScore() {
-  
   $('.score-count').html(`Score: ${correctAns}/10`);
   if (questionCounter <=10) {
     $('.question-count').html(`Question: ${questionCounter}/10`);  
   }
 }
 
+//Rest the quiz
 function resetTheQuiz() {
-  
   $('.right-answer').submit(function(event){
     event.preventDefault();
     location.reload();
   });
-  //windows.location.reload();
-    
-  
 }
 
-// function resetQuestion () {
-//   $('.reset-button').submit( function(event) {
-//       event.preventDefault();
-//       alert("reset");
-//       window.location.reload();
-//   });
-// }
+function handleQuizApp() {
+  startTheQuiz();
+  moveToNextQuestion();
+}
 
-
-
-
-  
-// }
-
-// function compareAnswer(guess) {
-//   if (guess === ANSWER[counter].ans) {
-//     correctAns++;
-//   }
-//   alert("score: " + correctAns);
-// }
-
-
-
-function handleShoppingList() {
-  
-    startTheQuiz();
-    moveToNextQuestion();
-    
-    
-    //updateScore(questionCounter++);
-    //myFunction();  
-    //retrieveAnswer();
-    //myFunction();
-   // keepingScore();
-   // checkButtonClicked();
-    //updateScore();
-    //renderQuestion();
-    //myFunction();
-    //compareAnswer(retrieveAnswer());
-    //moveToNextQuestion();
-    //resetTheQuiz();
-  }
-
-
-
-  $(handleShoppingList);
+$(handleQuizApp);
