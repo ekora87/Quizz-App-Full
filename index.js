@@ -99,24 +99,24 @@ let questionCounter = 1;
 let correctAns = 0;
 let result = false;
 
-//this function is use to render the DOM with the next question
-function generateNewQuestion(item) {
+//this function is use to render the DOM with the each question
+function generateQuiz(item) {
     return `<div class="question-box">
     <img src=${item.image} alt="Each Question Picture">
     <legend class="question"><h3>${item.question}</h3></legend><br>
     <div class="button-container">
-    <span class=each-question><input type="radio" name="question1" value="${item.ans1}" class="button" required>
-    <label for="test">${item.ans1}</label></span>
+    <span class=each-question><input type="radio" id="question-1" name="question" value="${item.ans1}" class="button" required>
+    <label for="${item.ans1}">${item.ans1}</label></span>
     <br>
-    <span class=each-question><input type="radio" name="question1" value="${item.ans2}" class="button" >
-    <label for="test">${item.ans2}</label></span>
+    <span class=each-question><input type="radio" id="question-2" name="question" value="${item.ans2}" class="button" >
+    <label for="${item.ans2}">${item.ans2}</label></span>
     <br>
-    <span class=each-question><input type="radio" name="question1" value="${item.ans3}" class="button" >
-    <label for="test">${item.ans3}</label></span>
+    <span class=each-question><input type="radio" id="question-3" name="question" value="${item.ans3}" class="button" >
+    <label for="${item.ans3}">${item.ans3}</label></span>
     <br>
     
-    <span class=each-question><input type="radio" name="question1" value="${item.ans4}" class="button" >
-    <label for="test">${item.ans4}</label></span>
+    <span class=each-question><input type="radio" id="question-4" name="question" value="${item.ans4}" class="button" >
+    <label for="${item.ans4}">${item.ans4}</label></span>
     <br>
     </div>
     </div>
@@ -124,19 +124,20 @@ function generateNewQuestion(item) {
     `;
 }
 
+//replace the h1 header with a logo
 function addImage() {
   $('header').html(`<img class="header-logo" src="http://pluspng.com/img-png/avengers-logo-png-avengers-age-of-ultron-logo-png-by-sachso74-837.png" alt="Avenger Header Logo">`);
 }
 
-
-function generateQuestionString(str) {
-  const items = str.map(item => generateNewQuestion(item));
+//Generate the Quiz
+function generateQuizItems(str) {
+  const items = str.map(item => generateQuiz(item));
   return items[counter];
 }
 
 function renderQuestion() {
     // render the each question in the DOM
-  const questionAnswer= generateQuestionString(QUIZ);
+  const questionAnswer= generateQuizItems(QUIZ);
   $('.right-answer').hide('.right-answer-box'); 
   $('.question-form').show('.question-box');
   $('.question-form').html(questionAnswer);
@@ -167,7 +168,7 @@ function moveToNextQuestion () {
 
 //This function is use to render the result to the DOM
 function displayEachResult() {
-  renderRightAnswer();
+  renderAnswer();
   $('.right-answer').submit( function(event) {
     event.preventDefault();
     renderQuestion();
@@ -201,7 +202,7 @@ function wrongAnswer() {
 
 
 //Render the right or wrong result depends on the user choice 
-function renderRightAnswer() {
+function renderAnswer() {
   let eachResult = "";
   if (result) {
     eachResult = rightAnswer();
@@ -210,6 +211,7 @@ function renderRightAnswer() {
   }
   if (counter === 9) {
     $('.btn:input[type="submit"][name="next"]').val("RESET THE QUIZ");
+    $('.right-answer-box > p').append(`<p class="final-score"> Your Final Score is: ${correctAns}`);
     updateScore();
     resetTheQuiz();
   } else {
@@ -219,7 +221,7 @@ function renderRightAnswer() {
 
 //Retrieve the user answer and compare it to the correct answer
 function retrieveAnswer() {
-   var radioValue = $('input[type=radio][name=question1]:checked').val();
+   var radioValue = $('input[type=radio][name=question]:checked').val();
    questionCounter++;
    if (radioValue === ANSWER[counter].ans) {
     correctAns++;
@@ -238,7 +240,7 @@ function updateScore() {
   }
 }
 
-//Rest the quiz
+//Reset the quiz
 function resetTheQuiz() {
   $('.right-answer').submit(function(event){
     event.preventDefault();
