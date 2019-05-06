@@ -2,23 +2,6 @@
     box-sizing: border-box;
 }
 
-
-/* html {
-    text-align: center;
-} */
-
-/* body {
-    background-image: url('https://static.gbtimes.com/uploads/files/2018-05/11/Marvel_Avengers_Infinity_War_China_cropped.jpg');
-    
-    width: 100%;
-    height: 1000px;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    
-} */
-
-
 body {
     background: url('https://images2.imgbox.com/f9/46/qQLWilUQ_o.jpg') no-repeat center center fixed;
     background-size: cover;
@@ -29,9 +12,6 @@ body {
     margin: 0 auto;
     text-align: center;
 }
-header {
-    display: inline-block;
-}
 
 h1 {
     margin: 50px 0 100px 0;
@@ -41,9 +21,12 @@ h1 {
     width: 100px;
     height: 100px;
 }
+
+h2 {
+    margin-bottom: 100px;
+    color: red;
+}
 .score-box {
-   
-   
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -121,19 +104,26 @@ h1 {
   }
 
     .result-pic {
-      width: 100%;
+      width: 500px;
+      height: auto;
       margin: 50px 0;
   }  
 
 
   .right-answer-box {
-      display: block;
-      width: 400px;
+      /* display: block; */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-items: space-between;
+      width: 500px;
       margin: 0 auto;
   }
 
   .right-answer-box > p {
     font-size: 30px;
+    margin: 0;
+    color: red;
   }
 
   .answer {
@@ -144,16 +134,30 @@ h1 {
       font-weight: bold;
   }
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 1ca7dc673c7aa1be2d58b6f785e77c7887a38a76
-  @media only screen and (min-width: 320px) and (max-width: 375px) and (min-height: 500px) and (max-height: 740px) {
+  @media only screen and (min-width: 320px) and (max-width: 414px) and (min-height: 500px) and (max-height: 740px) {
     body {
-        margin: 0 auto;
-        width: 100%;
+        width: 95%;
     }
+    
+    h1 {
+        margin: 50px 0;
+    }
+
+    .gauntlet {
+        width: 200px;
+        height: 200px;
+    }
+
+    h2 {
+        margin-bottom: 0;
+    }
+
+    .question-box {
+        padding-bottom: 0;
+        height: 400px;
+        margin: 0 5px 5px 5px;
+    }
+
     .question-box > img {
         height: 150px;
     }
@@ -162,78 +166,101 @@ h1 {
         margin-bottom: 0;
         padding: 5px;
     }
-    h1 {
-        margin: 50px 0;
-    }
 
     h3 {
         font-size: 15px;
     }
+
     .each-question > label {
         font-size: 15px;
     }
+
     .right-answer-box {
         width: 100%;
     }
+
     .button-container {
         margin: 5px;
         display: block;
+        position: relative;
+        bottom: 20px;
     }
 
     .each-question {
         padding: 3px 5px 0 5px;
-       
-      }
+    }
 
     span > label {
-      
         position: relative;
-       bottom: 4px;
-   }   
+        bottom: 4px;
+    }   
+
+    .result-pic {
+        width: 300px;
+    }
   }
 
-  @media only screen and (min-width: 375px) and (max-width: 1024px) and (min-height: 740px) {
-      body {
-    background-size: cover;
-    position: relative;
-    height:1000px;
-    width: 100%;    
-    
+  @media only screen and (min-width: 375px) and (max-width: 1023px) and (min-height: 740px) {
+    body {
+        background-size: cover;
+        position: relative;
+        height:1000px;
+       width: 95%; 
+    }
 
-      }
+    h2 {
+        margin-bottom: 0;
+    }
 
-      h1 {
-          margin: 10px 0;
-      }
+    div > .question-box {
+        margin-bottom: 5px;
+    }
 
-      .question-box {
-          padding-bottom: 0px;
-          margin-bottom: 5px;
-      }
-      .question-box > img {
+    .question-box > img {
         width: 80%;
         height: 200px;
         border-radius: 5px;
         margin-top: 5px;
-       }
+    }
 
-      
-
-       .each-question > label {
+    .each-question > label {
         font-size: 1em;
-       }
+    }
 
-       h3 {
+    h3 {
         font-size: 20px;
-       }
+    }
 
-      .button-container {
+    .button-container {
         display: block;
-      }
+    }
 
-      .each-question {
+    .each-question {
         padding: 5px;
-      }
+    }
+
+    .right-answer-box {
+        width: 80%;
+        margin: 0;
+    }
 } 
+
+@media only screen and (min-width: 1024px) and (max-width: 1366px) {
+    body {
+        width: 95%;
+    }
+   
+    h2 {
+        margin-bottom: 100px;
+    }
+
+    .question-box > img {
+        width: 80%;
+        height: 400px;
+    }
+
+
+
+}
  
  

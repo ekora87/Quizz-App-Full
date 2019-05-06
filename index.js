@@ -145,12 +145,10 @@ function renderQuestion() {
 //Function to start the quiz
 function startTheQuiz() {
   $('.gauntlet').click(function(){
+    $('h2, h1, .gauntlet').remove();
     counter++;
     renderQuestion();
-    $('h2').remove();
-    $('h1').remove();
     addImage();
-    $('.gauntlet').remove();
     updateScore();
   });
 } 
